@@ -20,6 +20,15 @@ public class Persona {
     private char sexo;
     private Entidad entidad;
     private int tel;
+    
+    public Persona(){
+        this.apellidoP = "";
+        this.apellidoM = "";
+        this.nombre = "";
+        this.sexo = 0;
+        this.fechaNac = new Date(1900, 1, 1);
+        this.entidad = entidad.NACIDO_EN_EL_EXTRANJERO;
+    }
 
     public Persona(String apellidoP, String apellidoM, String nombre, char sexo,
             Date fechaNac, Entidad entidad) {
@@ -82,6 +91,12 @@ public class Persona {
 
     public void setFechaNac(Date fechaNac) {
         this.fechaNac = fechaNac;
+        calculaCURP();
+    }
+    
+    public void setFechaNac(String fechaNac) {
+        //Esto
+//        this.fechaNac = fechaNac;
         calculaCURP();
     }
 

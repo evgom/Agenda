@@ -47,7 +47,8 @@ public class CURP {
         CURP += buscaConsonante(nombre);
         
         // Homoclave
-        CURP += (int)(Math.random() * 99);
+        //CURP += (int)(Math.random() * 99);
+        CURP += 01;
 
         return CURP;
     }
