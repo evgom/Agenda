@@ -59,4 +59,22 @@ public enum Entidad {
         return codigo;
     }
 
+    public static void main(String[] args) {
+        //System.out.println(Entidad.AGUASCALIENTES.getCodigo());
+        Entidad entidad;
+        entidad = Entidad.AGUASCALIENTES;
+
+        System.out.println(entidad.toString() + "\n"
+                + entidad.getCodigo() + "\n"
+                + entidad.getNombre());
+
+        // entidad = new Entidad(nombre, codigo);
+        //for (Entidad tmp: Entidad.values())
+        //  System.out.println(tmp.toString());
+        entidad = Entidad.valueOf("ZACATECAS");
+        System.out.println(entidad.toString() + "\n"
+                + entidad.getCodigo() + "\n"
+                + entidad.getNombre());
+    }
+
 }
