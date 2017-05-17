@@ -6,7 +6,6 @@
 package agenda;
 
 import java.util.Date;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -20,14 +19,14 @@ public class Persona {
     private char sexo;
     private Entidad entidad;
     private int tel;
-    
-    public Persona(){
+
+    public Persona() {
         this.apellidoP = "";
         this.apellidoM = "";
         this.nombre = "";
         this.sexo = 0;
         this.fechaNac = new Date(1900, 1, 1);
-        this.entidad = entidad.NACIDO_EN_EL_EXTRANJERO;
+        this.entidad = Entidad.NACIDO_EN_EL_EXTRANJERO;
     }
 
     public Persona(String apellidoP, String apellidoM, String nombre, char sexo,
@@ -93,7 +92,7 @@ public class Persona {
         this.fechaNac = fechaNac;
         calculaCURP();
     }
-    
+
     public void setFechaNac(String fechaNac) {
         //Esto
 //        this.fechaNac = fechaNac;
@@ -105,7 +104,7 @@ public class Persona {
     }
 
     private void calculaCURP() {
-        CURP = new CURP().calculaCURP(getApellidoP(), getApellidoM(), getNombre(),
+        CURP = agenda.CURP.calculaCURP(getApellidoP(), getApellidoM(), getNombre(),
                 getSexo(), getFechaNac(), getEntidad());
     }
 
