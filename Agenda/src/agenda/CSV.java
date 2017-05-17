@@ -15,7 +15,7 @@ import java.util.StringTokenizer;
  */
 public class CSV {
 
-    private final static String SEPARADOR = ", ";
+    private final static String SEPARADOR = ",";
     private AccesoArchivos archivos;
     private ArrayList<Persona> listaPersonas;
 
@@ -27,28 +27,30 @@ public class CSV {
         return listaPersonas;
     }
 
-    /*private String obtieneDatosPersonas() {
-        String datosPersonas = null;
+    private Persona establecePersona(String datos) {
+        Persona persona = new Persona();
+        StringTokenizer token = new StringTokenizer(datos, SEPARADOR);
 
-        StringTokenizer token = new StringTokenizer(datos, SEPARADOR, true);
+        /*while (token.hasMoreTokens()) {
+            System.out.println(token.nextToken().trim());
+        }*/
+        persona.setApellidoP(token.nextToken().trim());
+        persona.setApellidoM(token.nextToken().trim());
+        persona.setNombre(token.nextToken().trim());
+        persona.setFechaNac(token.nextToken().trim()); //Realizar correctamente esta parte
+        persona.setSexo(token.nextToken().trim().charAt(0));
+        persona.setEntidad(Entidad.valueOf(token.nextToken().trim())); // Hacer un verificador de ENUM Entidad
+        persona.setTel(Integer.parseInt(token.nextToken().trim()));
+        persona.setEmail(token.nextToken().trim());
+        return persona;
+    }
 
-        persona.setApellidoP(token.nextToken());
-        persona.setApellidoM(token.nextToken());
-        persona.setNombre(token.nextToken());
-        persona.setFechaNac(token.nextToken());
-        persona.setSexo(token.nextToken().charAt(0));
-        persona.setEntidad(Entidad.valueOf(token.nextToken())); // Hacer un verificador de ENUM Entidad
-        persona.setTel(Integer.parseInt(token.nextToken()));
-        persona.setEmail(token.nextToken());
-
-        return datosPersonas;
-    }*/
     private String personaDatos(Persona p) {
         String datos;
 
         datos = p.getApellidoP() + SEPARADOR + p.getApellidoM() + SEPARADOR
                 + p.getNombre() + SEPARADOR + p.getFechaNac().toString() + SEPARADOR
-                + p.getSexo() + SEPARADOR + p.getEntidad().getCodigo() + SEPARADOR
+                + p.getSexo() + SEPARADOR + p.getEntidad().toString() + SEPARADOR
                 + p.getTel() + SEPARADOR + p.getEmail();
 
         return datos;
@@ -60,7 +62,10 @@ public class CSV {
     }
 
     public void cargaCSV() {
-
+        String linea;
+        while ((linea = archivos.siguienteLinea()) != null) {
+            listaPersonas.add(establecePersona(linea));
+        }
     }
 
     public void guardaCSV() {
@@ -74,13 +79,13 @@ public class CSV {
 
     public static void main(String[] args) {
 
-        CSV mio = new CSV("agenda.txt", "agenda.txt");
+        CSV mio = new CSV("agenda.csv", "agenda.csv");
         ArrayList<Persona> lista = new ArrayList<>();
 
         Persona persona1 = new Persona("Bello", "Mena", "Luis Raúl", 'H',
                 new Date(1992, 3, 13), Entidad.COLIMA);
-        //System.out.println(persona1.getCURP());
         persona1.setEmail("evgom@gmsd.com");
+        //System.out.println(persona1.getCURP());
         //System.out.println(persona1.getEmail());
 
         Persona persona2 = new Persona("Osorio", "Merlos", "Erick Victor Gabriel",
@@ -88,11 +93,11 @@ public class CSV {
         persona2.setEmail("evgom.sid@gmail.com");
         //System.out.println(persona2.getCURP());
 
-        lista.add(persona1);
+        /* lista.add(persona1);
         lista.add(persona2);
         mio.setListaPersonas(lista);
-        mio.guardaCSV();
+        mio.guardaCSV();*/
+        mio.cargaCSV();
 
     }
-
 }
