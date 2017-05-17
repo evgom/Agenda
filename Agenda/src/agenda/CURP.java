@@ -30,25 +30,29 @@ public class CURP {
 
         CURP += apellidoP.charAt(0);
 
-        // Busca primera vocal en apellido paterno
-        CURP += buscaVocal(apellidoP);
+        try {
+            // Busca primera vocal en apellido paterno
+            CURP += buscaVocal(apellidoP);
 
-        CURP += apellidoM.charAt(0);
-        CURP += nombre.charAt(0);
-        CURP += String.valueOf(calendario.get(Calendar.YEAR)).substring(2, 4);
-        CURP += String.format("%02d", calendario.get(Calendar.MONTH));
-        CURP += String.format("%02d", calendario.get(Calendar.DAY_OF_MONTH));
-        CURP += sexo;
-        CURP += entidad.getCodigo();
+            CURP += apellidoM.charAt(0);
+            CURP += nombre.charAt(0);
+            CURP += String.valueOf(calendario.get(Calendar.YEAR)).substring(2, 4);
+            CURP += String.format("%02d", calendario.get(Calendar.MONTH));
+            CURP += String.format("%02d", calendario.get(Calendar.DAY_OF_MONTH));
+            CURP += sexo;
+            CURP += entidad.getCodigo();
 
-        // Busca primera consonante en apellidos y nombre, y que no sea la primera letra.
-        CURP += buscaConsonante(apellidoP);
-        CURP += buscaConsonante(apellidoM);
-        CURP += buscaConsonante(nombre);
-        
-        // Homoclave
-        //CURP += (int)(Math.random() * 99);
-        CURP += 01;
+            // Busca primera consonante en apellidos y nombre, y que no sea la primera letra.
+            CURP += buscaConsonante(apellidoP);
+            CURP += buscaConsonante(apellidoM);
+            CURP += buscaConsonante(nombre);
+
+            // Homoclave
+            //CURP += (int)(Math.random() * 99);
+            CURP += 01;
+        } catch (Exception e) {
+            CURP = "Datos incompletos o inválidos.";
+        }
 
         return CURP;
     }
