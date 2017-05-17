@@ -1,84 +1,101 @@
+package agenda;
+
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AccesoArchivos {
-	private RandomAccessFile lectorArchivo;
-	private String Entrada;
-	private String Salida;
-	private static String terminadorLinea = System.getProperty("line.separator");
-	ArrayList<String> listaCadenas;
 
-	public AccesoArchivos(String Entrada, String Salida) {
-		listaCadenas = new ArrayList<String>();
-		this.Entrada = Entrada;
-		this.Salida = Salida;
-		
-		if (Entrada != null)
-			abreArchivo();
-		
-	}
+    private RandomAccessFile lectorArchivo;
+    private String Entrada;
+    private String Salida;
+    private static final String TERMINADORDELINEA = System.getProperty("line.separator");
 
-	public void abreArchivo() {
-		File archivoEntrada = new File(Entrada);
-		try {
-			lectorArchivo = new RandomAccessFile(archivoEntrada, "r");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    public AccesoArchivos(String Entrada, String Salida) {
+        this.Entrada = Entrada;
+        this.Salida = Salida;
 
-	protected void guardaArchivo(String datos) {
-		try {
-			File archivoSalida = new File(Salida);
-			PrintWriter flujoSalida = new PrintWriter(archivoSalida);
+        if (Entrada != null) {
+            abreArchivo();
+        }
 
-			flujoSalida.print(datos);
-			flujoSalida.close();
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    public void abreArchivo() {
+        File archivoEntrada = new File(Entrada);
+        try {
+            lectorArchivo = new RandomAccessFile(archivoEntrada, "r");
+        } catch (Exception e1) {
+            try {
+                // Crea archivo en caso de ser necesario.
+                PrintWriter writer = new PrintWriter(archivoEntrada);
+                writer.close();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
 
-	public String siguienteLinea() {
-		String registro = null;
+    protected void guardaArchivo(String datos) {
+        try {
+            File archivoSalida = new File(Salida);
+            try (PrintWriter flujoSalida = new PrintWriter(archivoSalida, "UTF-8")) {
+                flujoSalida.print(datos);
+            }
 
-		try {
-			registro = lectorArchivo.readLine();
-			// Convertimos a UTF-8
-			registro = new String(registro.getBytes("ISO-8859-1"), "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-		} catch (Exception e) {
-			registro = null;
-		}
+    public String siguienteLinea() {
+        String registro;
 
-		return registro;
-	}
+        try {
+            registro = lectorArchivo.readLine();
+            // Convertimos a UTF-8
+            registro = new String(registro.getBytes("ISO-8859-1"), "UTF-8");
 
-	protected ArrayList<String> obtieneDatos() {
-		String linea;
+        } catch (Exception e) {
+            registro = null;
+        }
 
-		try {
+        return registro;
+    }
 
-			while ((linea = siguienteLinea()) != null) {
-				listaCadenas.add(linea);
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+    protected ArrayList<String> obtieneDatos() {
+        ArrayList<String> listaCadenas = new ArrayList<>();
+        String linea;
+        try {
+            lectorArchivo.seek(0);
+        } catch (IOException ex) {
+            Logger.getLogger(AccesoArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-		return listaCadenas;
-	}
+        try {
 
-	public static void main(String[] args) {
-		AccesoArchivos archivo = new AccesoArchivos("clientes.txt", "clientes2.txt");
-		System.out.println(archivo.siguienteLinea());
-		System.out.println(archivo.siguienteLinea());
-		System.out.println(archivo.siguienteLinea());
-		archivo.guardaArchivo("sdfds\nohhhhhhhÑÑÓA");
-		
-	}
+            while ((linea = siguienteLinea()) != null) {
+                listaCadenas.add(linea);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return listaCadenas;
+    }
+
+    public static void main(String[] args) {
+        AccesoArchivos archivo = new AccesoArchivos("clientes2.txt", "clientes2.txt");
+        System.out.println(archivo.siguienteLinea());
+        System.out.println(archivo.siguienteLinea());
+        System.out.println(archivo.siguienteLinea());
+        archivo.guardaArchivo("sdfds\nohhhhhhhÑÑÓA");
+        System.out.println(archivo.obtieneDatos().get(0));
+
+    }
 
 }
