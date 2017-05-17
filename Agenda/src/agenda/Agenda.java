@@ -5,7 +5,9 @@
  */
 package agenda;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -18,16 +20,18 @@ public class Agenda {
      */
     public static void main(String[] args) {
         Persona persona1 = new Persona("Bello", "Mena", "Luis Raúl", 'H',
-                new Date(1992, 3, 13), Entidad.COLIMA );
+                new GregorianCalendar(1992, 3 - 1, 13), Entidad.COLIMA);
         System.out.println(persona1.getCURP());
         persona1.setEmail("evgom@gmsd.com");
         System.out.println(persona1.getEmail());
-        
+
         Persona persona2 = new Persona("Osorio", "Merlos", "Erick Victor Gabriel",
-                'h', new Date(1987, 9, 03), Entidad.DISTRITO_FEDERAL);
+                'h', new GregorianCalendar(1987, Calendar.SEPTEMBER, 03), Entidad.DISTRITO_FEDERAL);
         System.out.println(persona2.getCURP());
 
-        
+        GregorianCalendar calendario = new GregorianCalendar(1987, Calendar.SEPTEMBER, 03);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
+        System.out.println(sdf.format(calendario.getTime()));
     }
-    
+
 }

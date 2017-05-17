@@ -5,8 +5,8 @@
  */
 package agenda;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -15,12 +15,11 @@ import java.util.Date;
 public class CURP {
 
     public static String calculaCURP(String apellidoP, String apellidoM, String nombre, char sexo,
-            Date fechaNac, Entidad entidad) {
+            GregorianCalendar fechaNac, Entidad entidad) {
 
         // Inicializa elementos
         String CURP = "";
-        Calendar calendario = Calendar.getInstance();
-        calendario.setTime(fechaNac);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 
         // Convertimos a mayúsculas.
         apellidoP = apellidoP.toUpperCase();
@@ -36,9 +35,7 @@ public class CURP {
 
             CURP += apellidoM.charAt(0);
             CURP += nombre.charAt(0);
-            CURP += String.valueOf(calendario.get(Calendar.YEAR)).substring(2, 4);
-            CURP += String.format("%02d", calendario.get(Calendar.MONTH));
-            CURP += String.format("%02d", calendario.get(Calendar.DAY_OF_MONTH));
+            CURP += sdf.format(fechaNac.getTime());
             CURP += sexo;
             CURP += entidad.getCodigo();
 
@@ -51,6 +48,7 @@ public class CURP {
             //CURP += (int)(Math.random() * 99);
             CURP += 01;
         } catch (Exception e) {
+            System.out.println(e.toString());
             CURP = "Datos incompletos o inválidos.";
         }
 
@@ -84,5 +82,4 @@ public class CURP {
         }
         return caracter;
     }
-
 }

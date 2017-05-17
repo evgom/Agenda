@@ -5,8 +5,10 @@
  */
 package agenda;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.StringTokenizer;
 
 /**
@@ -47,9 +49,10 @@ public class CSV {
 
     private String personaDatos(Persona p) {
         String datos;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
 
         datos = p.getApellidoP() + SEPARADOR + p.getApellidoM() + SEPARADOR
-                + p.getNombre() + SEPARADOR + p.getFechaNac().toString() + SEPARADOR
+                + p.getNombre() + SEPARADOR + sdf.format(p.getFechaNac().getTime()) + SEPARADOR
                 + p.getSexo() + SEPARADOR + p.getEntidad().toString() + SEPARADOR
                 + p.getTel() + SEPARADOR + p.getEmail();
 
@@ -83,21 +86,23 @@ public class CSV {
         ArrayList<Persona> lista = new ArrayList<>();
 
         Persona persona1 = new Persona("Bello", "Mena", "Luis Raúl", 'H',
-                new Date(1992, 3, 13), Entidad.COLIMA);
+                new GregorianCalendar(1992, 3 - 1, 13), Entidad.COLIMA);
+        System.out.println(persona1.getCURP());
         persona1.setEmail("evgom@gmsd.com");
-        //System.out.println(persona1.getCURP());
-        //System.out.println(persona1.getEmail());
+        System.out.println(persona1.getEmail());
 
         Persona persona2 = new Persona("Osorio", "Merlos", "Erick Victor Gabriel",
-                'h', new Date(1987, 9, 03), Entidad.DISTRITO_FEDERAL);
-        persona2.setEmail("evgom.sid@gmail.com");
-        //System.out.println(persona2.getCURP());
+                'h', new GregorianCalendar(1987, Calendar.SEPTEMBER, 03), Entidad.DISTRITO_FEDERAL);
+        System.out.println(persona2.getCURP());
 
-        /* lista.add(persona1);
+        lista.add(persona1);
         lista.add(persona2);
         mio.setListaPersonas(lista);
-        mio.guardaCSV();*/
+        mio.guardaCSV();
         mio.cargaCSV();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
+        System.out.println(sdf.format(mio.getListaPersonas().get(0).getFechaNac().getTime()));
+        System.out.println(sdf.format(mio.getListaPersonas().get(1).getFechaNac().getTime()));
 
     }
 }

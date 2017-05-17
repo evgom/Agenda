@@ -5,7 +5,9 @@
  */
 package agenda;
 
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 /**
@@ -15,7 +17,7 @@ import java.util.regex.Pattern;
 public class Persona {
 
     private String apellidoP, apellidoM, nombre, email;
-    private Date fechaNac;
+    private GregorianCalendar fechaNac;
     private char sexo;
     private Entidad entidad;
     private int tel;
@@ -25,12 +27,12 @@ public class Persona {
         this.apellidoM = "";
         this.nombre = "";
         this.sexo = 0;
-        this.fechaNac = new Date(1900, 1, 1);
+        this.fechaNac = new GregorianCalendar(1900, Calendar.JANUARY, 1);
         this.entidad = Entidad.NACIDO_EN_EL_EXTRANJERO;
     }
 
     public Persona(String apellidoP, String apellidoM, String nombre, char sexo,
-            Date fechaNac, Entidad entidad) {
+            GregorianCalendar fechaNac, Entidad entidad) {
         this.apellidoP = apellidoP;
         this.apellidoM = apellidoM;
         this.nombre = nombre;
@@ -79,17 +81,24 @@ public class Persona {
         this.sexo = sexo;
     }
 
-    public Date getFechaNac() {
+    public GregorianCalendar getFechaNac() {
         return fechaNac;
     }
 
-    public void setFechaNac(Date fechaNac) {
+    public void setFechaNac(GregorianCalendar fechaNac) {
         this.fechaNac = fechaNac;
     }
 
     public void setFechaNac(String fechaNac) {
-        //Esto
-//        this.fechaNac = fechaNac;
+        int[] elementos = new int[3];
+        StringTokenizer token = new StringTokenizer(fechaNac, " ");
+
+        for (int i = 0; i <= 2; i++) {
+            elementos[i] = Integer.parseInt(token.nextToken());
+        }
+
+        // Se quita un elemento al mes porque los meses se cuentan de 0-11
+        this.fechaNac = new GregorianCalendar(elementos[0], elementos[1] - 1, elementos[2]);
     }
 
     public String getCURP() {
