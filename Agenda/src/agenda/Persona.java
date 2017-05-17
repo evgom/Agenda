@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class Persona {
 
-    private String apellidoP, apellidoM, nombre, CURP, email;
+    private String apellidoP, apellidoM, nombre, email;
     private Date fechaNac;
     private char sexo;
     private Entidad entidad;
@@ -37,7 +37,6 @@ public class Persona {
         this.sexo = sexo;
         this.fechaNac = fechaNac;
         this.entidad = entidad;
-        calculaCURP();
     }
 
     public Entidad getEntidad() {
@@ -46,7 +45,6 @@ public class Persona {
 
     public void setEntidad(Entidad entidad) {
         this.entidad = entidad;
-        calculaCURP();
     }
 
     public String getApellidoP() {
@@ -55,7 +53,6 @@ public class Persona {
 
     public void setApellidoP(String apellidoP) {
         this.apellidoP = apellidoP;
-        calculaCURP();
     }
 
     public String getApellidoM() {
@@ -64,7 +61,6 @@ public class Persona {
 
     public void setApellidoM(String apellidoM) {
         this.apellidoM = apellidoM;
-        calculaCURP();
     }
 
     public String getNombre() {
@@ -73,7 +69,6 @@ public class Persona {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-        calculaCURP();
     }
 
     public char getSexo() {
@@ -90,21 +85,15 @@ public class Persona {
 
     public void setFechaNac(Date fechaNac) {
         this.fechaNac = fechaNac;
-        calculaCURP();
     }
 
     public void setFechaNac(String fechaNac) {
         //Esto
 //        this.fechaNac = fechaNac;
-        calculaCURP();
     }
 
     public String getCURP() {
-        return CURP;
-    }
-
-    private void calculaCURP() {
-        CURP = agenda.CURP.calculaCURP(getApellidoP(), getApellidoM(), getNombre(),
+        return agenda.CURP.calculaCURP(getApellidoP(), getApellidoM(), getNombre(),
                 getSexo(), getFechaNac(), getEntidad());
     }
 
