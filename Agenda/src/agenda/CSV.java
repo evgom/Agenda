@@ -28,7 +28,7 @@ public class CSV {
         persona.setNombre(token.nextToken());
         persona.setFechaNac(token.nextToken());
         persona.setSexo(token.nextToken().charAt(0));
-        persona.setEntidad(token.nextToken());
+        persona.setEntidad(Entidad.valueOf(token.nextToken())); // Hacer un verificador de ENUM Entidad
         persona.setTel(Integer.parseInt(token.nextToken()));
         persona.setEmail(token.nextToken());
 
