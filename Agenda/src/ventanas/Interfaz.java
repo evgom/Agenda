@@ -60,7 +60,7 @@ public class Interfaz extends javax.swing.JFrame {
         TXTcurp.setText(CURP.calculaCURP(TXTApellidoP.getText(), TXTApellidoM.getText(), TXTNombres.getText(), CBSexo.getSelectedItem().toString().charAt(0), fechaNac, Entidad.getEntidad(CBEntidad.getSelectedItem().toString())));
     }
 
-    private void creaPanelContactos(Persona p) {
+    private JPanel creaPanelContactos(Persona p) {
         JPanel jPanelContactoResumen = new JPanel();
         javax.swing.GroupLayout jPanelContactoResumenLayout = new javax.swing.GroupLayout(jPanelContactoResumen);
         javax.swing.JLabel jLabelImagen = new javax.swing.JLabel();
@@ -72,6 +72,36 @@ public class Interfaz extends javax.swing.JFrame {
         javax.swing.JLabel jLcurpContenido = new javax.swing.JLabel();
         javax.swing.JButton BTNeditar = new javax.swing.JButton();
         javax.swing.JButton BTNborrar = new javax.swing.JButton();
+
+        BTNborrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // Buscar persona
+                int indice;
+                indice = listaContactos.indexOf(p);
+                listaContactos.remove(indice);
+
+                jPanelContacto.remove(indice);
+                jPanelContacto.updateUI();
+
+                //BTNborrarActionPerformed(evt);
+            }
+        });
+
+        BTNeditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // Buscar persona
+                int indice;
+                indice = listaContactos.indexOf(p);
+                listaContactos.remove(indice);
+                listaContactos.add(indice, p);
+
+                jPanelContacto.remove(indice);
+                jPanelContacto.add(jPanelContactoResumen, indice);
+                jPanelContacto.updateUI();
+
+                //BTNeditarActionPerformed(evt);
+            }
+        });
 
         jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
 
@@ -144,7 +174,8 @@ public class Interfaz extends javax.swing.JFrame {
                                         .addComponent(jLabelImagen)))
         );
 
-        jPanelContacto.add(jPanelContactoResumen);
+        //jPanelContacto.add(jPanelContactoResumen);
+        return jPanelContactoResumen;
     }
 
     /**
@@ -411,8 +442,18 @@ public class Interfaz extends javax.swing.JFrame {
         jLcurpContenido.setText("CURP");
 
         BTNeditar.setText("Editar");
+        BTNeditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNeditarActionPerformed(evt);
+            }
+        });
 
         BTNborrar.setText("Borrar");
+        BTNborrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNborrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelContactoResumenLayout = new javax.swing.GroupLayout(jPanelContactoResumen);
         jPanelContactoResumen.setLayout(jPanelContactoResumenLayout);
@@ -540,7 +581,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         //listaContactos.add(new JPanel());
         //jPanelContacto.add(listaContactos.get(listaContactos.size() - 1));
-        creaPanelContactos(listaContactos.get(listaContactos.size() - 1));
+        jPanelContacto.add(creaPanelContactos(listaContactos.get(listaContactos.size() - 1)));
         jPanelContacto.updateUI();
 
     }//GEN-LAST:event_jButtonAceptarActionPerformed
@@ -577,6 +618,14 @@ public class Interfaz extends javax.swing.JFrame {
     private void CBEntidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBEntidadItemStateChanged
         estableceCURP();
     }//GEN-LAST:event_CBEntidadItemStateChanged
+
+    private void BTNborrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNborrarActionPerformed
+        System.out.println("ventanas.Interfaz.BTNborrarActionPerformed()");
+    }//GEN-LAST:event_BTNborrarActionPerformed
+
+    private void BTNeditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNeditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BTNeditarActionPerformed
 
     /**
      * @param args the command line arguments
