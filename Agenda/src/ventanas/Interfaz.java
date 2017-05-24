@@ -5,8 +5,10 @@
  */
 package ventanas;
 
+import agenda.CURP;
 import agenda.Entidad;
 import agenda.Persona;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -45,6 +47,12 @@ public class Interfaz extends javax.swing.JFrame {
         TXTTel.setText("");
         CBEntidad.setSelectedIndex(0);
         TXTFechaNac.setText("");
+    }
+
+    private void estableceCURP() {
+        System.out.println("Aqui");
+        GregorianCalendar fechaNac = new GregorianCalendar(1987, 9 - 1, 3); //Temporal
+        TXTcurp.setText(CURP.calculaCURP(TXTApellidoP.getText(), TXTApellidoM.getText(), TXTNombres.getText(), CBSexo.getSelectedItem().toString().charAt(0), fechaNac, Entidad.DISTRITO_FEDERAL));
     }
 
     /**
@@ -101,6 +109,11 @@ public class Interfaz extends javax.swing.JFrame {
                 TXTApellidoPActionPerformed(evt);
             }
         });
+        TXTApellidoP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TXTApellidoPKeyTyped(evt);
+            }
+        });
 
         jLabel2.setText("Apellido Paterno:");
 
@@ -109,27 +122,38 @@ public class Interfaz extends javax.swing.JFrame {
                 TXTApellidoMActionPerformed(evt);
             }
         });
+        TXTApellidoM.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TXTApellidoMKeyTyped(evt);
+            }
+        });
 
         jLabel3.setText("Apellido Materno:");
 
         jLabel4.setText("Sexo:");
 
         CBSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hombre", "Mujer" }));
-        CBSexo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CBSexoActionPerformed(evt);
+        CBSexo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CBSexoItemStateChanged(evt);
             }
         });
 
         jLabel5.setText("Entidad:");
 
-        CBEntidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CBEntidadActionPerformed(evt);
+        CBEntidad.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CBEntidadItemStateChanged(evt);
             }
         });
 
         jLabel6.setText("Fecha de Nacimiento:");
+
+        TXTFechaNac.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TXTFechaNacKeyTyped(evt);
+            }
+        });
 
         jLabel7.setText("Teléfono:");
 
@@ -357,14 +381,6 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TXTApellidoMActionPerformed
 
-    private void CBSexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBSexoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CBSexoActionPerformed
-
-    private void CBEntidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBEntidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CBEntidadActionPerformed
-
     private void TXTTelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTTelActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TXTTelActionPerformed
@@ -390,8 +406,28 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_TXTemailActionPerformed
 
     private void TXTNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXTNombresKeyTyped
-        System.out.println("sdfds");
+        estableceCURP();
     }//GEN-LAST:event_TXTNombresKeyTyped
+
+    private void TXTApellidoPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXTApellidoPKeyTyped
+        estableceCURP();
+    }//GEN-LAST:event_TXTApellidoPKeyTyped
+
+    private void TXTApellidoMKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXTApellidoMKeyTyped
+        estableceCURP();
+    }//GEN-LAST:event_TXTApellidoMKeyTyped
+
+    private void TXTFechaNacKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXTFechaNacKeyTyped
+        estableceCURP();
+    }//GEN-LAST:event_TXTFechaNacKeyTyped
+
+    private void CBSexoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBSexoItemStateChanged
+        estableceCURP();
+    }//GEN-LAST:event_CBSexoItemStateChanged
+
+    private void CBEntidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBEntidadItemStateChanged
+        estableceCURP();
+    }//GEN-LAST:event_CBEntidadItemStateChanged
 
     /**
      * @param args the command line arguments

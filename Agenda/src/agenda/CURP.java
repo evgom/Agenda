@@ -27,9 +27,9 @@ public class CURP {
         nombre = nombre.toUpperCase();
         sexo = Character.toUpperCase(sexo);
 
-        CURP += apellidoP.charAt(0);
-
         try {
+            CURP += apellidoP.charAt(0);
+
             // Busca primera vocal en apellido paterno
             CURP += buscaVocal(apellidoP);
 
@@ -48,7 +48,7 @@ public class CURP {
             //CURP += (int)(Math.random() * 99);
             CURP += 01;
         } catch (Exception e) {
-            System.out.println(e.toString());
+            //System.out.println(e.toString());
             CURP = "Datos incompletos o inválidos.";
         }
 
