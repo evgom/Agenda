@@ -5,6 +5,8 @@
  */
 package agenda;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author erick
@@ -59,22 +61,36 @@ public enum Entidad {
         return codigo;
     }
 
+    public static String[] getEstadosLista() {
+        ArrayList<String> estadosLista = new ArrayList<>();
+        int i;
+        for (Entidad tmp : Entidad.values()) {
+            System.out.println(tmp.toString());
+            estadosLista.add(tmp.toString());
+        }
+
+        String[] arrayEstados = estadosLista.toArray(new String[estadosLista.size()]);
+        //arrayEstados = (String[]) estadosLista.toArray();
+        return arrayEstados;
+    }
+
     public static void main(String[] args) {
         //System.out.println(Entidad.AGUASCALIENTES.getCodigo());
         Entidad entidad;
         entidad = Entidad.AGUASCALIENTES;
 
-        System.out.println(entidad.toString() + "\n"
-                + entidad.getCodigo() + "\n"
-                + entidad.getNombre());
-
+        //System.out.println(entidad.toString() + "\n"
+        //       + entidad.getCodigo() + "\n"
+        //     + entidad.getNombre());
         // entidad = new Entidad(nombre, codigo);
-        //for (Entidad tmp: Entidad.values())
-        //  System.out.println(tmp.toString());
-        entidad = Entidad.valueOf("ZACATECAS");
-        System.out.println(entidad.toString() + "\n"
-                + entidad.getCodigo() + "\n"
-                + entidad.getNombre());
+        for (Entidad tmp : Entidad.values()) {
+            System.out.println(tmp.toString());
+        }
+        // entidad = Entidad.valueOf("ZACATECAS");
+        //System.out.println(entidad.toString() + "\n"
+        //      + entidad.getCodigo() + "\n"
+        //    + entidad.getNombre());
+
     }
 
 }
