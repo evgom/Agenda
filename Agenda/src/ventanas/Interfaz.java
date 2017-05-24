@@ -38,6 +38,7 @@ public class Interfaz extends javax.swing.JFrame {
         p.setEmail(TXTemail.getText());
         p.setSexo(CBSexo.getSelectedItem().toString().charAt(0));
         p.setTel(Integer.parseInt(TXTTel.getText()));
+        p.setEntidad(Entidad.getEntidad(CBEntidad.getSelectedItem().toString()));
 
         return p;
     }
@@ -56,7 +57,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void estableceCURP() {
         System.out.println("Aqui");
         GregorianCalendar fechaNac = new GregorianCalendar(1987, 9 - 1, 3); //Temporal
-        TXTcurp.setText(CURP.calculaCURP(TXTApellidoP.getText(), TXTApellidoM.getText(), TXTNombres.getText(), CBSexo.getSelectedItem().toString().charAt(0), fechaNac, Entidad.DISTRITO_FEDERAL));
+        TXTcurp.setText(CURP.calculaCURP(TXTApellidoP.getText(), TXTApellidoM.getText(), TXTNombres.getText(), CBSexo.getSelectedItem().toString().charAt(0), fechaNac, Entidad.getEntidad(CBEntidad.getSelectedItem().toString())));
     }
 
     private void creaPanelContactos(Persona p) {

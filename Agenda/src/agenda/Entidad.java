@@ -72,6 +72,17 @@ public enum Entidad {
         return arrayEstados;
     }
 
+    public static Entidad getEntidad(String nombreEstado) {
+        Entidad e = null;
+        for (Entidad tmp : Entidad.values()) {
+            if (tmp.getNombre().equals(nombreEstado)) {
+                e = tmp;
+            }
+        }
+
+        return e;
+    }
+
     public static void main(String[] args) {
         //System.out.println(Entidad.AGUASCALIENTES.getCodigo());
         Entidad entidad;
@@ -89,7 +100,7 @@ public enum Entidad {
         //      + entidad.getCodigo() + "\n"
         //    + entidad.getNombre());
         getEstadosLista();
-        System.out.println("final");
+        System.out.println(Entidad.valueOf("ZACATECAS"));
 
     }
 
