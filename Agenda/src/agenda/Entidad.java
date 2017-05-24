@@ -65,12 +65,10 @@ public enum Entidad {
         ArrayList<String> estadosLista = new ArrayList<>();
         int i;
         for (Entidad tmp : Entidad.values()) {
-            System.out.println(tmp.toString());
-            estadosLista.add(tmp.toString());
+            estadosLista.add(tmp.getNombre());
         }
 
         String[] arrayEstados = estadosLista.toArray(new String[estadosLista.size()]);
-        //arrayEstados = (String[]) estadosLista.toArray();
         return arrayEstados;
     }
 
@@ -83,13 +81,15 @@ public enum Entidad {
         //       + entidad.getCodigo() + "\n"
         //     + entidad.getNombre());
         // entidad = new Entidad(nombre, codigo);
-        for (Entidad tmp : Entidad.values()) {
+        /*for (Entidad tmp : Entidad.values()) {
             System.out.println(tmp.toString());
-        }
+        }*/
         // entidad = Entidad.valueOf("ZACATECAS");
         //System.out.println(entidad.toString() + "\n"
         //      + entidad.getCodigo() + "\n"
         //    + entidad.getNombre());
+        getEstadosLista();
+        System.out.println("final");
 
     }
 
