@@ -8,13 +8,17 @@ package ventanas;
 import agenda.CURP;
 import agenda.Entidad;
 import agenda.Persona;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import javax.swing.JPanel;
 
 /**
  *
  * @author erick
  */
 public class Interfaz extends javax.swing.JFrame {
+
+    ArrayList<Persona> listaContactos = new ArrayList<>();
 
     /**
      * Creates new form Interfaz
@@ -55,6 +59,93 @@ public class Interfaz extends javax.swing.JFrame {
         TXTcurp.setText(CURP.calculaCURP(TXTApellidoP.getText(), TXTApellidoM.getText(), TXTNombres.getText(), CBSexo.getSelectedItem().toString().charAt(0), fechaNac, Entidad.DISTRITO_FEDERAL));
     }
 
+    private void creaPanelContactos(Persona p) {
+        JPanel jPanelContactoResumen = new JPanel();
+        javax.swing.GroupLayout jPanelContactoResumenLayout = new javax.swing.GroupLayout(jPanelContactoResumen);
+        javax.swing.JLabel jLabelImagen = new javax.swing.JLabel();
+        javax.swing.JLabel jLNombre = new javax.swing.JLabel();
+        javax.swing.JLabel jLTel = new javax.swing.JLabel();
+        javax.swing.JLabel jLcurp = new javax.swing.JLabel();
+        javax.swing.JLabel jLNombreContenido = new javax.swing.JLabel();
+        javax.swing.JLabel jLTelContenido = new javax.swing.JLabel();
+        javax.swing.JLabel jLcurpContenido = new javax.swing.JLabel();
+        javax.swing.JButton BTNeditar = new javax.swing.JButton();
+        javax.swing.JButton BTNborrar = new javax.swing.JButton();
+
+        jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
+
+        jLNombre.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLNombre.setText("Nombre:");
+
+        jLTel.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLTel.setText("Teléfono:");
+
+        jLcurp.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLcurp.setText("CURP:");
+
+        BTNeditar.setText("Editar");
+        BTNborrar.setText("Borrar");
+
+        jLNombreContenido.setText(p.getNombre() + " " + p.getApellidoP() + " " + p.getApellidoM());
+
+        jLTelContenido.setText(String.valueOf(p.getTel()));
+
+        jLcurpContenido.setText(p.getCURP());
+
+        jPanelContactoResumen.setLayout(jPanelContactoResumenLayout);
+        jPanelContactoResumenLayout.setHorizontalGroup(
+                jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelContactoResumenLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabelImagen)
+                                .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanelContactoResumenLayout.createSequentialGroup()
+                                                .addGap(37, 37, 37)
+                                                .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLTel)
+                                                        .addComponent(jLNombre)
+                                                        .addComponent(jLcurp))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLcurpContenido)
+                                                        .addComponent(jLTelContenido)
+                                                        .addComponent(jLNombreContenido))
+                                                .addContainerGap(242, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContactoResumenLayout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(BTNborrar)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(BTNeditar)
+                                                .addContainerGap())))
+        );
+        jPanelContactoResumenLayout.setVerticalGroup(
+                jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContactoResumenLayout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanelContactoResumenLayout.createSequentialGroup()
+                                                .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(jLNombre)
+                                                        .addComponent(jLNombreContenido))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(jLTel)
+                                                        .addComponent(jLTelContenido))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(jLcurp)
+                                                        .addComponent(jLcurpContenido))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(BTNeditar)
+                                                        .addComponent(BTNborrar))
+                                                .addContainerGap())
+                                        .addComponent(jLabelImagen)))
+        );
+
+        jPanelContacto.add(jPanelContactoResumen);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,10 +176,18 @@ public class Interfaz extends javax.swing.JFrame {
         jButtonCancelar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         TXTemail = new javax.swing.JTextField();
+        jPanelContactoResumen = new javax.swing.JPanel();
+        jLabelImagen = new javax.swing.JLabel();
+        jLNombre = new javax.swing.JLabel();
+        jLTel = new javax.swing.JLabel();
+        jLcurp = new javax.swing.JLabel();
+        jLNombreContenido = new javax.swing.JLabel();
+        jLTelContenido = new javax.swing.JLabel();
+        jLcurpContenido = new javax.swing.JLabel();
+        BTNeditar = new javax.swing.JButton();
+        BTNborrar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jPanel2 = new javax.swing.JPanel();
+        jPanelContacto = new javax.swing.JPanel();
         BTNagregaContacto = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -293,40 +392,83 @@ public class Interfaz extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
+
+        jLNombre.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLNombre.setText("Nombre:");
+
+        jLTel.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLTel.setText("Teléfono:");
+
+        jLcurp.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLcurp.setText("CURP:");
+
+        jLNombreContenido.setText("Nombres");
+
+        jLTelContenido.setText("Telefono");
+
+        jLcurpContenido.setText("CURP");
+
+        BTNeditar.setText("Editar");
+
+        BTNborrar.setText("Borrar");
+
+        javax.swing.GroupLayout jPanelContactoResumenLayout = new javax.swing.GroupLayout(jPanelContactoResumen);
+        jPanelContactoResumen.setLayout(jPanelContactoResumenLayout);
+        jPanelContactoResumenLayout.setHorizontalGroup(
+            jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelContactoResumenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelImagen)
+                .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelContactoResumenLayout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLTel)
+                            .addComponent(jLNombre)
+                            .addComponent(jLcurp))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLcurpContenido)
+                            .addComponent(jLTelContenido)
+                            .addComponent(jLNombreContenido))
+                        .addContainerGap(242, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContactoResumenLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BTNborrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BTNeditar)
+                        .addContainerGap())))
+        );
+        jPanelContactoResumenLayout.setVerticalGroup(
+            jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContactoResumenLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelContactoResumenLayout.createSequentialGroup()
+                        .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLNombre)
+                            .addComponent(jLNombreContenido))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLTel)
+                            .addComponent(jLTelContenido))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLcurp)
+                            .addComponent(jLcurpContenido))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanelContactoResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BTNeditar)
+                            .addComponent(BTNborrar))
+                        .addContainerGap())
+                    .addComponent(jLabelImagen)))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 473, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(399, Short.MAX_VALUE))
-        );
-
-        jScrollPane2.setViewportView(jPanel1);
+        jPanelContacto.setLayout(new java.awt.GridLayout(0, 1));
+        jScrollPane2.setViewportView(jPanelContacto);
 
         BTNagregaContacto.setText("Añadir Contacto");
         BTNagregaContacto.addActionListener(new java.awt.event.ActionListener() {
@@ -390,10 +532,16 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_TXTcurpActionPerformed
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
-        obtieneDatosVentana();
+        listaContactos.add(obtieneDatosVentana());
 
         jFrameInfoContacto.setVisible(false);
         jFrameInfoContacto.dispose();
+
+        //listaContactos.add(new JPanel());
+        //jPanelContacto.add(listaContactos.get(listaContactos.size() - 1));
+        creaPanelContactos(listaContactos.get(listaContactos.size() - 1));
+        jPanelContacto.updateUI();
+
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -466,6 +614,8 @@ public class Interfaz extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNagregaContacto;
+    private javax.swing.JButton BTNborrar;
+    private javax.swing.JButton BTNeditar;
     private javax.swing.JComboBox<String> CBEntidad;
     private javax.swing.JComboBox<String> CBSexo;
     private javax.swing.JTextField TXTApellidoM;
@@ -478,6 +628,10 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAceptar;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JFrame jFrameInfoContacto;
+    private javax.swing.JLabel jLNombre;
+    private javax.swing.JLabel jLNombreContenido;
+    private javax.swing.JLabel jLTel;
+    private javax.swing.JLabel jLTelContenido;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -487,12 +641,14 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelImagen;
+    private javax.swing.JLabel jLcurp;
+    private javax.swing.JLabel jLcurpContenido;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelContacto;
+    private javax.swing.JPanel jPanelContactoResumen;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }
