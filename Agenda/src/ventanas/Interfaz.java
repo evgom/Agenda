@@ -334,7 +334,6 @@ public class Interfaz extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItemExportar = new javax.swing.JMenuItem();
         jMenuItemImportar = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         jFrameInfoContacto.setMinimumSize(new java.awt.Dimension(400, 400));
 
@@ -674,9 +673,6 @@ public class Interfaz extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -891,7 +887,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLcurp;
     private javax.swing.JLabel jLcurpContenido;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItemExportar;
     private javax.swing.JMenuItem jMenuItemImportar;
