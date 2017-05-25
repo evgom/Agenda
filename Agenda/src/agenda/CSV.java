@@ -43,7 +43,13 @@ public class CSV {
         persona.setSexo(token.nextToken().trim().charAt(0));
         persona.setEntidad(Entidad.valueOf(token.nextToken().trim())); // Hacer un verificador de ENUM Entidad
         persona.setTel(token.nextToken().trim());
-        persona.setEmail(token.nextToken().trim());
+
+        // El caso en que el e-mail esté vacío
+        if (token.hasMoreTokens()) {
+            persona.setEmail(token.nextToken().trim());
+        } else {
+            persona.setEmail("");
+        }
         return persona;
     }
 
@@ -100,7 +106,7 @@ public class CSV {
         lista.add(persona1);
         lista.add(persona2);
         mio.setListaPersonas(lista);
-        mio.guardaCSV();
+        //mio.guardaCSV();
         mio.cargaCSV();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
         System.out.println(sdf.format(mio.getListaPersonas().get(0).getFechaNac().getTime()));
