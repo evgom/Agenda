@@ -115,8 +115,6 @@ public class Interfaz extends javax.swing.JFrame {
                 listaContactos.remove(indiceContacto);
                 jPanelContacto.remove(indiceContacto);
                 jPanelContacto.updateUI();
-
-                //BTNborrarActionPerformed(evt);
             }
         });
 
@@ -126,6 +124,7 @@ public class Interfaz extends javax.swing.JFrame {
                 indiceContacto = listaContactos.indexOf(p);
 
                 ventanaEditaContacto(p);
+                BTNeditarActionPerformed(evt);
             }
         });
 
@@ -640,7 +639,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void BTNagregaContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNagregaContactoActionPerformed
         ventanaAgregaContactos();
-        //this.setEnabled(false); // Usar para deshabilitar la pantalla principal.
+        this.setEnabled(false); // Usar para deshabilitar la pantalla principal.
     }//GEN-LAST:event_BTNagregaContactoActionPerformed
 
     private void TXTApellidoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTApellidoPActionPerformed
@@ -675,11 +674,13 @@ public class Interfaz extends javax.swing.JFrame {
         jFrameInfoContacto.setVisible(false);
         jFrameInfoContacto.dispose();
         jPanelContacto.updateUI();
+        this.setEnabled(true); // Usar para habilitar la pantalla principal.
     }//GEN-LAST:event_BTNInfoContactoAceptarActionPerformed
 
     private void BTNInfoContactoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNInfoContactoCancelarActionPerformed
         jFrameInfoContacto.setVisible(false);
         jFrameInfoContacto.dispose();
+        this.setEnabled(true); // Usar para habilitar la pantalla principal.
     }//GEN-LAST:event_BTNInfoContactoCancelarActionPerformed
 
     private void TXTemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTemailActionPerformed
@@ -711,7 +712,7 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_BTNborrarActionPerformed
 
     private void BTNeditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNeditarActionPerformed
-        // TODO add your handling code here:
+        this.setEnabled(false); // Usar para deshabilitar la pantalla principal.
     }//GEN-LAST:event_BTNeditarActionPerformed
 
     private void CBdiaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBdiaItemStateChanged
