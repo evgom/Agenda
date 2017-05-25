@@ -18,7 +18,9 @@ import javax.swing.JPanel;
  */
 public class Interfaz extends javax.swing.JFrame {
 
-    ArrayList<Persona> listaContactos = new ArrayList<>();
+    private ArrayList<Persona> listaContactos = new ArrayList<>();
+    private boolean aniadeContacto;
+    private int indiceContacto;
 
     /**
      * Creates new form Interfaz
@@ -27,6 +29,8 @@ public class Interfaz extends javax.swing.JFrame {
         initComponents();
 
         CBEntidad.setModel(new javax.swing.DefaultComboBoxModel<>(Entidad.getEstadosLista()));
+        aniadeContacto = true;
+        indiceContacto = 0;
     }
 
     private Persona obtieneDatosVentana() {
@@ -57,7 +61,9 @@ public class Interfaz extends javax.swing.JFrame {
     private void estableceCURP() {
         System.out.println("Aqui");
         GregorianCalendar fechaNac = new GregorianCalendar(1987, 9 - 1, 3); //Temporal
-        TXTcurp.setText(CURP.calculaCURP(TXTApellidoP.getText(), TXTApellidoM.getText(), TXTNombres.getText(), CBSexo.getSelectedItem().toString().charAt(0), fechaNac, Entidad.getEntidad(CBEntidad.getSelectedItem().toString())));
+        TXTcurp.setText(CURP.calculaCURP(TXTApellidoP.getText(), TXTApellidoM.getText(),
+                TXTNombres.getText(), CBSexo.getSelectedItem().toString().charAt(0),
+                fechaNac, Entidad.getEntidad(CBEntidad.getSelectedItem().toString())));
     }
 
     private JPanel creaPanelContactos(Persona p) {
@@ -76,11 +82,10 @@ public class Interfaz extends javax.swing.JFrame {
         BTNborrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 // Buscar persona
-                int indice;
-                indice = listaContactos.indexOf(p);
-                listaContactos.remove(indice);
+                indiceContacto = listaContactos.indexOf(p);
 
-                jPanelContacto.remove(indice);
+                listaContactos.remove(indiceContacto);
+                jPanelContacto.remove(indiceContacto);
                 jPanelContacto.updateUI();
 
                 //BTNborrarActionPerformed(evt);
@@ -90,16 +95,9 @@ public class Interfaz extends javax.swing.JFrame {
         BTNeditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 // Buscar persona
-                int indice;
-                indice = listaContactos.indexOf(p);
-                listaContactos.remove(indice);
-                listaContactos.add(indice, p);
+                indiceContacto = listaContactos.indexOf(p);
 
-                jPanelContacto.remove(indice);
-                jPanelContacto.add(jPanelContactoResumen, indice);
-                jPanelContacto.updateUI();
-
-                //BTNeditarActionPerformed(evt);
+                ventanaEditaContacto(p);
             }
         });
 
@@ -178,6 +176,29 @@ public class Interfaz extends javax.swing.JFrame {
         return jPanelContactoResumen;
     }
 
+    private void ventanaAgregaContactos() {
+        aniadeContacto = true;
+        limpiajFrameInfoContacto();
+        jFrameInfoContacto.setVisible(true);
+    }
+
+    private void ventanaEditaContacto(Persona p) {
+        aniadeContacto = false;
+        setjFrameInfoContacto(p);
+        jFrameInfoContacto.setVisible(true);
+    }
+
+    private void setjFrameInfoContacto(Persona p) {
+        TXTNombres.setText(p.getNombre());
+        TXTApellidoP.setText(p.getApellidoP());
+        TXTApellidoM.setText(p.getApellidoM());
+        TXTemail.setText(p.getEmail());
+        CBSexo.setSelectedIndex(0);
+        TXTTel.setText(String.valueOf(p.getTel()));
+        CBEntidad.setSelectedIndex(0);
+        TXTFechaNac.setText("");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -204,8 +225,8 @@ public class Interfaz extends javax.swing.JFrame {
         TXTTel = new javax.swing.JTextField();
         TXTcurp = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jButtonAceptar = new javax.swing.JButton();
-        jButtonCancelar = new javax.swing.JButton();
+        BTNInfoContactoAceptar = new javax.swing.JButton();
+        BTNInfoContactoCancelar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         TXTemail = new javax.swing.JTextField();
         jPanelContactoResumen = new javax.swing.JPanel();
@@ -303,17 +324,17 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel8.setText("CURP:");
 
-        jButtonAceptar.setText("Aceptar");
-        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+        BTNInfoContactoAceptar.setText("Aceptar");
+        BTNInfoContactoAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAceptarActionPerformed(evt);
+                BTNInfoContactoAceptarActionPerformed(evt);
             }
         });
 
-        jButtonCancelar.setText("Cancelar");
-        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+        BTNInfoContactoCancelar.setText("Cancelar");
+        BTNInfoContactoCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCancelarActionPerformed(evt);
+                BTNInfoContactoCancelarActionPerformed(evt);
             }
         });
 
@@ -369,9 +390,9 @@ public class Interfaz extends javax.swing.JFrame {
                         .addComponent(TXTcurp))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrameInfoContactoLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonCancelar)
+                        .addComponent(BTNInfoContactoCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonAceptar))
+                        .addComponent(BTNInfoContactoAceptar))
                     .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -419,8 +440,8 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(TXTcurp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonAceptar)
-                    .addComponent(jButtonCancelar))
+                    .addComponent(BTNInfoContactoAceptar)
+                    .addComponent(BTNInfoContactoCancelar))
                 .addContainerGap())
         );
 
@@ -554,9 +575,8 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BTNagregaContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNagregaContactoActionPerformed
-        // TODO add your handling code here:
-        limpiajFrameInfoContacto();
-        jFrameInfoContacto.setVisible(true);
+        ventanaAgregaContactos();
+        //this.setEnabled(false); // Usar para deshabilitar la pantalla principal.
     }//GEN-LAST:event_BTNagregaContactoActionPerformed
 
     private void TXTApellidoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTApellidoPActionPerformed
@@ -575,23 +595,28 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TXTcurpActionPerformed
 
-    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
-        listaContactos.add(obtieneDatosVentana());
+    private void BTNInfoContactoAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNInfoContactoAceptarActionPerformed
+        if (aniadeContacto) {
+            listaContactos.add(obtieneDatosVentana());
+
+            jPanelContacto.add(creaPanelContactos(listaContactos.get(listaContactos.size() - 1)));
+        } else {
+            listaContactos.remove(indiceContacto);
+            listaContactos.add(indiceContacto, obtieneDatosVentana());
+
+            jPanelContacto.remove(indiceContacto);
+            jPanelContacto.add(creaPanelContactos(listaContactos.get(indiceContacto)), indiceContacto);
+        }
 
         jFrameInfoContacto.setVisible(false);
         jFrameInfoContacto.dispose();
-
-        //listaContactos.add(new JPanel());
-        //jPanelContacto.add(listaContactos.get(listaContactos.size() - 1));
-        jPanelContacto.add(creaPanelContactos(listaContactos.get(listaContactos.size() - 1)));
         jPanelContacto.updateUI();
+    }//GEN-LAST:event_BTNInfoContactoAceptarActionPerformed
 
-    }//GEN-LAST:event_jButtonAceptarActionPerformed
-
-    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+    private void BTNInfoContactoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNInfoContactoCancelarActionPerformed
         jFrameInfoContacto.setVisible(false);
         jFrameInfoContacto.dispose();
-    }//GEN-LAST:event_jButtonCancelarActionPerformed
+    }//GEN-LAST:event_BTNInfoContactoCancelarActionPerformed
 
     private void TXTemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTemailActionPerformed
         // TODO add your handling code here:
@@ -665,6 +690,8 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BTNInfoContactoAceptar;
+    private javax.swing.JButton BTNInfoContactoCancelar;
     private javax.swing.JButton BTNagregaContacto;
     private javax.swing.JButton BTNborrar;
     private javax.swing.JButton BTNeditar;
@@ -677,8 +704,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField TXTTel;
     private javax.swing.JTextField TXTcurp;
     private javax.swing.JTextField TXTemail;
-    private javax.swing.JButton jButtonAceptar;
-    private javax.swing.JButton jButtonCancelar;
     private javax.swing.JFrame jFrameInfoContacto;
     private javax.swing.JLabel jLNombre;
     private javax.swing.JLabel jLNombreContenido;
