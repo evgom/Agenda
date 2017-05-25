@@ -8,6 +8,7 @@ package ventanas;
 import agenda.CURP;
 import agenda.Entidad;
 import agenda.Persona;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import javax.swing.JPanel;
@@ -29,6 +30,27 @@ public class Interfaz extends javax.swing.JFrame {
         initComponents();
 
         CBEntidad.setModel(new javax.swing.DefaultComboBoxModel<>(Entidad.getEstadosLista()));
+
+        // Inicializa valores de los jComboBox de la fecha
+        String[] dias, mes, anios;
+        dias = new String[31];
+        mes = new String[12];
+        anios = new String[118];
+        for (int i = 0; i < 118; i++) {
+            if (i < 31) {
+                dias[i] = String.format("%02d", i + 1);
+            }
+            if (i < 12) {
+                mes[i] = String.format("%02d", i + 1);
+            }
+
+            anios[i] = String.format("%04d", i + 1900);
+        }
+
+        CBdia.setModel(new javax.swing.DefaultComboBoxModel<>(dias));
+        CBmes.setModel(new javax.swing.DefaultComboBoxModel<>(mes));
+        CBanio.setModel(new javax.swing.DefaultComboBoxModel<>(anios));
+
         aniadeContacto = true;
         indiceContacto = 0;
     }
@@ -43,6 +65,7 @@ public class Interfaz extends javax.swing.JFrame {
         p.setSexo(CBSexo.getSelectedItem().toString().charAt(0));
         p.setTel(TXTTel.getText());
         p.setEntidad(Entidad.getEntidad(CBEntidad.getSelectedItem().toString()));
+        p.setFechaNac(CBanio.getSelectedItem().toString() + " " + CBmes.getSelectedItem().toString() + " " + CBdia.getSelectedItem().toString());
 
         return p;
     }
@@ -55,12 +78,17 @@ public class Interfaz extends javax.swing.JFrame {
         CBSexo.setSelectedIndex(0);
         TXTTel.setText("");
         CBEntidad.setSelectedIndex(0);
-        TXTFechaNac.setText("");
+        CBdia.setSelectedIndex(0);
+        CBmes.setSelectedIndex(0);
+        CBanio.setSelectedIndex(0);
     }
 
     private void estableceCURP() {
-        System.out.println("Aqui");
-        GregorianCalendar fechaNac = new GregorianCalendar(1987, 9 - 1, 3); //Temporal
+        GregorianCalendar fechaNac
+                = new GregorianCalendar(Integer.parseInt(CBanio.getSelectedItem().toString()),
+                        Integer.parseInt(CBmes.getSelectedItem().toString()) - 1,
+                        Integer.parseInt(CBdia.getSelectedItem().toString()));
+
         TXTcurp.setText(CURP.calculaCURP(TXTApellidoP.getText(), TXTApellidoM.getText(),
                 TXTNombres.getText(), CBSexo.getSelectedItem().toString().charAt(0),
                 fechaNac, Entidad.getEntidad(CBEntidad.getSelectedItem().toString())));
@@ -194,7 +222,6 @@ public class Interfaz extends javax.swing.JFrame {
         TXTemail.setText(p.getEmail());
         TXTTel.setText(p.getTel());
         CBEntidad.setSelectedItem(p.getEntidad().getNombre());
-        TXTFechaNac.setText("");
         TXTcurp.setText(p.getCURP());
 
         if (p.getSexo() == 'M') {
@@ -202,6 +229,14 @@ public class Interfaz extends javax.swing.JFrame {
         } else {
             CBSexo.setSelectedItem("Hombre");
         }
+
+        SimpleDateFormat sdf;
+        sdf = new SimpleDateFormat("dd");
+        CBdia.setSelectedItem(sdf.format(p.getFechaNac().getTime()));
+        sdf = new SimpleDateFormat("MM");
+        CBmes.setSelectedItem(sdf.format(p.getFechaNac().getTime()));
+        sdf = new SimpleDateFormat("yyyy");
+        CBanio.setSelectedItem(sdf.format(p.getFechaNac().getTime()));
     }
 
     /**
@@ -225,7 +260,6 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         CBEntidad = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        TXTFechaNac = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         TXTTel = new javax.swing.JTextField();
         TXTcurp = new javax.swing.JTextField();
@@ -234,6 +268,9 @@ public class Interfaz extends javax.swing.JFrame {
         BTNInfoContactoCancelar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         TXTemail = new javax.swing.JTextField();
+        CBdia = new javax.swing.JComboBox<>();
+        CBmes = new javax.swing.JComboBox<>();
+        CBanio = new javax.swing.JComboBox<>();
         jPanelContactoResumen = new javax.swing.JPanel();
         jLabelImagen = new javax.swing.JLabel();
         jLNombre = new javax.swing.JLabel();
@@ -251,7 +288,7 @@ public class Interfaz extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
-        jFrameInfoContacto.setMinimumSize(new java.awt.Dimension(300, 400));
+        jFrameInfoContacto.setMinimumSize(new java.awt.Dimension(400, 400));
 
         jLabel1.setText("Nombres:");
 
@@ -306,12 +343,6 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel6.setText("Fecha de Nacimiento:");
 
-        TXTFechaNac.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TXTFechaNacKeyTyped(evt);
-            }
-        });
-
         jLabel7.setText("Teléfono:");
 
         TXTTel.addActionListener(new java.awt.event.ActionListener() {
@@ -351,6 +382,24 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        CBdia.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CBdiaItemStateChanged(evt);
+            }
+        });
+
+        CBmes.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CBmesItemStateChanged(evt);
+            }
+        });
+
+        CBanio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CBanioItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jFrameInfoContactoLayout = new javax.swing.GroupLayout(jFrameInfoContacto.getContentPane());
         jFrameInfoContacto.getContentPane().setLayout(jFrameInfoContactoLayout);
         jFrameInfoContactoLayout.setHorizontalGroup(
@@ -371,25 +420,6 @@ public class Interfaz extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TXTApellidoM))
                     .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
-                        .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(CBSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(CBEntidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TXTFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TXTTel)))
-                        .addGap(0, 107, Short.MAX_VALUE))
-                    .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TXTcurp))
@@ -401,7 +431,30 @@ public class Interfaz extends javax.swing.JFrame {
                     .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TXTemail)))
+                        .addComponent(TXTemail))
+                    .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
+                        .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CBSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CBEntidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TXTTel, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CBdia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CBmes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CBanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jFrameInfoContactoLayout.setVerticalGroup(
@@ -429,24 +482,30 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(CBEntidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(TXTFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(TXTTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(TXTemail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(TXTcurp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BTNInfoContactoAceptar)
-                    .addComponent(BTNInfoContactoCancelar))
+                    .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(30, 30, 30)
+                        .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(TXTTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(TXTemail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(TXTcurp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BTNInfoContactoAceptar)
+                            .addComponent(BTNInfoContactoCancelar)))
+                    .addGroup(jFrameInfoContactoLayout.createSequentialGroup()
+                        .addGroup(jFrameInfoContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CBdia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CBmes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CBanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -564,14 +623,14 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 419, Short.MAX_VALUE)
+                        .addGap(0, 667, Short.MAX_VALUE)
                         .addComponent(BTNagregaContacto)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BTNagregaContacto))
         );
@@ -639,10 +698,6 @@ public class Interfaz extends javax.swing.JFrame {
         estableceCURP();
     }//GEN-LAST:event_TXTApellidoMKeyTyped
 
-    private void TXTFechaNacKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXTFechaNacKeyTyped
-        estableceCURP();
-    }//GEN-LAST:event_TXTFechaNacKeyTyped
-
     private void CBSexoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBSexoItemStateChanged
         estableceCURP();
     }//GEN-LAST:event_CBSexoItemStateChanged
@@ -658,6 +713,18 @@ public class Interfaz extends javax.swing.JFrame {
     private void BTNeditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNeditarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BTNeditarActionPerformed
+
+    private void CBdiaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBdiaItemStateChanged
+        estableceCURP();
+    }//GEN-LAST:event_CBdiaItemStateChanged
+
+    private void CBmesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBmesItemStateChanged
+        estableceCURP();
+    }//GEN-LAST:event_CBmesItemStateChanged
+
+    private void CBanioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBanioItemStateChanged
+        estableceCURP();
+    }//GEN-LAST:event_CBanioItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -702,9 +769,11 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton BTNeditar;
     private javax.swing.JComboBox<String> CBEntidad;
     private javax.swing.JComboBox<String> CBSexo;
+    private javax.swing.JComboBox<String> CBanio;
+    private javax.swing.JComboBox<String> CBdia;
+    private javax.swing.JComboBox<String> CBmes;
     private javax.swing.JTextField TXTApellidoM;
     private javax.swing.JTextField TXTApellidoP;
-    private javax.swing.JTextField TXTFechaNac;
     private javax.swing.JTextField TXTNombres;
     private javax.swing.JTextField TXTTel;
     private javax.swing.JTextField TXTcurp;
