@@ -42,7 +42,7 @@ public class CSV {
         persona.setFechaNac(token.nextToken().trim()); //Realizar correctamente esta parte
         persona.setSexo(token.nextToken().trim().charAt(0));
         persona.setEntidad(Entidad.valueOf(token.nextToken().trim())); // Hacer un verificador de ENUM Entidad
-        persona.setTel(Integer.parseInt(token.nextToken().trim()));
+        persona.setTel(token.nextToken().trim());
         persona.setEmail(token.nextToken().trim());
         return persona;
     }
@@ -87,12 +87,14 @@ public class CSV {
 
         Persona persona1 = new Persona("Bello", "Mena", "Luis Raúl", 'H',
                 new GregorianCalendar(1992, 3 - 1, 13), Entidad.COLIMA);
+        persona1.setTel("123456");
         System.out.println(persona1.getCURP());
         persona1.setEmail("evgom@gmsd.com");
         System.out.println(persona1.getEmail());
 
         Persona persona2 = new Persona("Osorio", "Merlos", "Erick Victor Gabriel",
                 'h', new GregorianCalendar(1987, Calendar.SEPTEMBER, 03), Entidad.DISTRITO_FEDERAL);
+        persona2.setTel("55 3025 6550");
         System.out.println(persona2.getCURP());
 
         lista.add(persona1);

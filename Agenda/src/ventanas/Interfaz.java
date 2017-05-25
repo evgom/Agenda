@@ -41,7 +41,7 @@ public class Interfaz extends javax.swing.JFrame {
         p.setApellidoM(TXTApellidoM.getText());
         p.setEmail(TXTemail.getText());
         p.setSexo(CBSexo.getSelectedItem().toString().charAt(0));
-        p.setTel(Integer.parseInt(TXTTel.getText()));
+        p.setTel(TXTTel.getText());
         p.setEntidad(Entidad.getEntidad(CBEntidad.getSelectedItem().toString()));
 
         return p;
@@ -117,7 +117,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLNombreContenido.setText(p.getNombre() + " " + p.getApellidoP() + " " + p.getApellidoM());
 
-        jLTelContenido.setText(String.valueOf(p.getTel()));
+        jLTelContenido.setText(p.getTel());
 
         jLcurpContenido.setText(p.getCURP());
 
@@ -192,7 +192,7 @@ public class Interfaz extends javax.swing.JFrame {
         TXTApellidoP.setText(p.getApellidoP());
         TXTApellidoM.setText(p.getApellidoM());
         TXTemail.setText(p.getEmail());
-        TXTTel.setText(String.valueOf(p.getTel()));
+        TXTTel.setText(p.getTel());
         CBEntidad.setSelectedItem(p.getEntidad().getNombre());
         TXTFechaNac.setText("");
         TXTcurp.setText(p.getCURP());

@@ -16,11 +16,10 @@ import java.util.regex.Pattern;
  */
 public class Persona {
 
-    private String apellidoP, apellidoM, nombre, email;
+    private String apellidoP, apellidoM, nombre, email, tel;
     private GregorianCalendar fechaNac;
     private char sexo;
     private Entidad entidad;
-    private int tel;
 
     public Persona() {
         this.apellidoP = "";
@@ -118,19 +117,24 @@ public class Persona {
         if (regExpEmail.matcher(email).matches()) {
             this.email = email;
         } else {
+            System.out.println("E-mail inválido. Estableciendo en '' ");
             this.email = "";
         }
     }
 
-    public int getTel() {
+    public String getTel() {
         return tel;
     }
 
-    public void setTel(int tel) {
-        if (tel > 0) {
+    public void setTel(String tel) {
+        final String PATTERN_TEL = "^[\\d ]{1,20}";
+
+        Pattern regExpTel = Pattern.compile(PATTERN_TEL);
+        if (regExpTel.matcher(tel).matches()) {
             this.tel = tel;
         } else {
-            this.tel = 0;
+            System.out.println("Teléfono inválido. Estableciendo en '' ");
+            this.tel = "";
         }
     }
 

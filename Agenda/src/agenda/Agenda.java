@@ -32,6 +32,13 @@ public class Agenda {
         GregorianCalendar calendario = new GregorianCalendar(1987, Calendar.SEPTEMBER, 03);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
         System.out.println(sdf.format(calendario.getTime()));
+
+        persona1.setTel("55");
+        persona1.setTel(" 55");
+        persona1.setTel(" 55 33");
+        persona1.setTel("AA");
+        persona1.setTel("55*");
+
     }
 
 }
