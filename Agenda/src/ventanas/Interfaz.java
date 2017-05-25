@@ -9,10 +9,13 @@ import agenda.CSV;
 import agenda.CURP;
 import agenda.Entidad;
 import agenda.Persona;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -321,6 +324,8 @@ public class Interfaz extends javax.swing.JFrame {
         BTNagregaContacto = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItemExportar = new javax.swing.JMenuItem();
+        jMenuItemImportar = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         jFrameInfoContacto.setMinimumSize(new java.awt.Dimension(400, 400));
@@ -642,6 +647,18 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         jMenu1.setText("Archivo");
+
+        jMenuItemExportar.setText("Exportar contactos");
+        jMenuItemExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemExportarActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemExportar);
+
+        jMenuItemImportar.setText("Importar contactos");
+        jMenu1.add(jMenuItemImportar);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -763,6 +780,28 @@ public class Interfaz extends javax.swing.JFrame {
         estableceCURP();
     }//GEN-LAST:event_CBanioItemStateChanged
 
+    private void jMenuItemExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExportarActionPerformed
+        final JFileChooser fc = new JFileChooser();
+        final FileNameExtensionFilter filtroCSV = new FileNameExtensionFilter("Texto CSV", "csv");
+        fc.setFileFilter(filtroCSV);
+
+        int returnValue = fc.showSaveDialog(this);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File file;
+
+            // Evalua que la extensión sea CSV
+            if (fc.getSelectedFile().toString().endsWith(".csv")
+                    || fc.getSelectedFile().toString().endsWith(".CSV")) {
+                file = fc.getSelectedFile();
+            } else {
+                file = new File(fc.getSelectedFile() + ".csv");
+            }
+
+            guardaContactos(file.getAbsolutePath());
+        }
+    }//GEN-LAST:event_jMenuItemExportarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -835,6 +874,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItemExportar;
+    private javax.swing.JMenuItem jMenuItemImportar;
     private javax.swing.JPanel jPanelContacto;
     private javax.swing.JPanel jPanelContactoResumen;
     private javax.swing.JScrollPane jScrollPane2;
