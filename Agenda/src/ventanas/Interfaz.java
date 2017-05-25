@@ -255,15 +255,23 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void cargaContactos(String archivo) {
         CSV csv = new CSV(archivo, archivo);
+
+        listaContactos.clear();
         csv.setListaPersonas(listaContactos);
         csv.cargaCSV();
-        listaContactos = csv.getListaPersonas();
 
         jPanelContacto.removeAll();
         for (Persona p : listaContactos) {
             jPanelContacto.add(creaPanelContactos(p));
         }
         jPanelContacto.updateUI();
+    }
+
+    private JFileChooser initJFileChooserCSV() {
+        final JFileChooser fc = new JFileChooser();
+        final FileNameExtensionFilter filtroCSV = new FileNameExtensionFilter("Texto CSV", "csv");
+        fc.setFileFilter(filtroCSV);
+        return fc;
     }
 
     private void attachShutDownHook() {
@@ -657,6 +665,11 @@ public class Interfaz extends javax.swing.JFrame {
         jMenu1.add(jMenuItemExportar);
 
         jMenuItemImportar.setText("Importar contactos");
+        jMenuItemImportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemImportarActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItemImportar);
 
         jMenuBar1.add(jMenu1);
@@ -781,12 +794,9 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_CBanioItemStateChanged
 
     private void jMenuItemExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExportarActionPerformed
-        final JFileChooser fc = new JFileChooser();
-        final FileNameExtensionFilter filtroCSV = new FileNameExtensionFilter("Texto CSV", "csv");
-        fc.setFileFilter(filtroCSV);
+        final JFileChooser fc = initJFileChooserCSV();
 
         int returnValue = fc.showSaveDialog(this);
-
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File file;
 
@@ -801,6 +811,15 @@ public class Interfaz extends javax.swing.JFrame {
             guardaContactos(file.getAbsolutePath());
         }
     }//GEN-LAST:event_jMenuItemExportarActionPerformed
+
+    private void jMenuItemImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemImportarActionPerformed
+        final JFileChooser fc = initJFileChooserCSV();
+
+        int returnValue = fc.showOpenDialog(this);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            cargaContactos(fc.getSelectedFile().toString());
+        }
+    }//GEN-LAST:event_jMenuItemImportarActionPerformed
 
     /**
      * @param args the command line arguments
