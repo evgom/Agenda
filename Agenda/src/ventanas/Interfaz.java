@@ -5,6 +5,7 @@
  */
 package ventanas;
 
+import agenda.CSV;
 import agenda.CURP;
 import agenda.Entidad;
 import agenda.Persona;
@@ -22,6 +23,7 @@ public class Interfaz extends javax.swing.JFrame {
     private ArrayList<Persona> listaContactos = new ArrayList<>();
     private boolean aniadeContacto;
     private int indiceContacto;
+    private static final String ARCHIVO = "agenda.csv";
 
     /**
      * Creates new form Interfaz
@@ -53,6 +55,10 @@ public class Interfaz extends javax.swing.JFrame {
 
         aniadeContacto = true;
         indiceContacto = 0;
+
+        cargaContactos(ARCHIVO);
+
+        attachShutDownHook();
     }
 
     private Persona obtieneDatosVentana() {
@@ -236,6 +242,36 @@ public class Interfaz extends javax.swing.JFrame {
         CBmes.setSelectedItem(sdf.format(p.getFechaNac().getTime()));
         sdf = new SimpleDateFormat("yyyy");
         CBanio.setSelectedItem(sdf.format(p.getFechaNac().getTime()));
+    }
+
+    private void guardaContactos(String archivo) {
+        CSV csv = new CSV(archivo, archivo);
+        csv.setListaPersonas(listaContactos);
+        csv.guardaCSV();
+    }
+
+    private void cargaContactos(String archivo) {
+        CSV csv = new CSV(archivo, archivo);
+        csv.setListaPersonas(listaContactos);
+        csv.cargaCSV();
+        listaContactos = csv.getListaPersonas();
+
+        jPanelContacto.removeAll();
+        for (Persona p : listaContactos) {
+            jPanelContacto.add(creaPanelContactos(p));
+        }
+        jPanelContacto.updateUI();
+    }
+
+    private void attachShutDownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                guardaContactos(ARCHIVO);
+                System.out.println("Archivo de contactos salvados correctamente.");
+            }
+        });
+        //System.out.println("Creado el hook en el programa");
     }
 
     /**
