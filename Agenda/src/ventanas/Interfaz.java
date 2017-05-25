@@ -172,7 +172,6 @@ public class Interfaz extends javax.swing.JFrame {
                                         .addComponent(jLabelImagen)))
         );
 
-        //jPanelContacto.add(jPanelContactoResumen);
         return jPanelContactoResumen;
     }
 
@@ -193,10 +192,16 @@ public class Interfaz extends javax.swing.JFrame {
         TXTApellidoP.setText(p.getApellidoP());
         TXTApellidoM.setText(p.getApellidoM());
         TXTemail.setText(p.getEmail());
-        CBSexo.setSelectedIndex(0);
         TXTTel.setText(String.valueOf(p.getTel()));
-        CBEntidad.setSelectedIndex(0);
+        CBEntidad.setSelectedItem(p.getEntidad().getNombre());
         TXTFechaNac.setText("");
+        TXTcurp.setText(p.getCURP());
+
+        if (p.getSexo() == 'M') {
+            CBSexo.setSelectedItem("Mujer");
+        } else {
+            CBSexo.setSelectedItem("Hombre");
+        }
     }
 
     /**
